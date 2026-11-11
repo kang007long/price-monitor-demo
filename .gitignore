@@ -1,6 +1,15 @@
 node_modules
 .venv
 __pycache__
+*.pyc
+.pytest_cache
 .env*
-data/*.db
 .DS_Store
+.pnpm-store
+
+# The demo database is committed on purpose: GitHub Pages needs history across
+# daily runs without any server or external storage. WAL sidecars are not.
+data/*.db
+!data/price_monitor.db
+data/*.db-wal
+data/*.db-shm
