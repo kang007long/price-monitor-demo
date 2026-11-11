@@ -1,0 +1,89 @@
+name: Daily scrape and deploy
+
+on:
+  schedule:
+    # 05:17 UTC every day. Change this to suit your audience.
+    - cron: "17 5 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  scrape-build-deploy:
+    name: Scrape, export, build, deploy
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
+      - name: Install Python dependencies
+        run: uv sync --frozen
+
+      - name: Scrape (polite, simulated and labelled)
+        run: |
+          uv run price-monitor scrape \
+            --simulate \
+            --ensure-history 14 \
+            --notes "Scheduled GitHub Actions run"
+
+      - name: Export dashboard data and reports
+        run: uv run price-monitor export
+
+      - name: Commit updated database and exports
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/price_monitor.db web/public/data web/public/exports
+          if git diff --cached --quiet; then
+            echo "No data changes to commit."
+          else
+            git commit -m "chore: daily price data $(date -u +%F)"
+            git push
+          fi
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: web/pnpm-lock.yaml
+
+      - name: Install dashboard dependencies
+        run: pnpm --dir web install --frozen-lockfile
+
+      - uses: actions/configure-pages@v5
+        id: pages
+
+      - name: Build static dashboard
+        env:
+          NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+        run: pnpm --dir web build
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: web/out
+
+      - uses: actions/deploy-pages@v4
+        id: deployment
