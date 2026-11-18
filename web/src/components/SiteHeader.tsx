@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { BASE_PATH } from "@/lib/data";
+import { BASE_PATH, REPO_URL } from "@/lib/data";
+import { ExternalIcon } from "@/components/Icons";
 
 const NAV = [
   { href: "/", label: "Dashboard" },
@@ -57,6 +58,9 @@ export function SiteHeader() {
           <span className="pill pill-amber">
             <span className="dot" /> Practice sandbox
           </span>
+          <a className="btn" href={REPO_URL} target="_blank" rel="noreferrer noopener">
+            Source on GitHub <ExternalIcon />
+          </a>
         </div>
       </div>
     </header>

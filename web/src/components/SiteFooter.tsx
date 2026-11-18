@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { REPO_URL } from "@/lib/data";
 
 export function SiteFooter() {
   return (
@@ -13,6 +14,9 @@ export function SiteFooter() {
         </p>
         <div className="footer-links">
           <Link href="/about">How it works</Link>
+          <a href={REPO_URL} rel="noreferrer noopener" target="_blank">
+            Source on GitHub
+          </a>
           <a
             href="https://quotes.toscrape.com/"
             rel="noreferrer noopener"

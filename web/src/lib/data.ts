@@ -1,5 +1,8 @@
 import type { DashboardData } from "./types";
 
+/** Public source repository, linked from the header, footer and About page. */
+export const REPO_URL = "https://github.com/kang007long/price-monitor-demo";
+
 export const BASE_PATH = (process.env.NEXT_PUBLIC_BASE_PATH ?? "").replace(
   /\/+$/,
   "",

@@ -9,6 +9,7 @@ import {
   ExternalIcon,
   InfoIcon,
 } from "@/components/Icons";
+import { REPO_URL } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "About",
@@ -254,11 +255,14 @@ cd web && pnpm install && pnpm build && pnpm preview`}
           <section className="panel">
             <div className="panel-header">
               <div>
-                <h2 className="panel-title">Practice sites</h2>
+                <h2 className="panel-title">Source and practice sites</h2>
                 <p className="panel-sub">Explicitly built for scraping</p>
               </div>
             </div>
             <div className="panel-body stack-10">
+              <a className="btn btn-primary" href={REPO_URL} target="_blank" rel="noreferrer noopener">
+                Source code on GitHub <ExternalIcon />
+              </a>
               <a
                 className="btn"
                 href="https://books.toscrape.com/"
