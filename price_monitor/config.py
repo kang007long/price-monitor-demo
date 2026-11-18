@@ -21,7 +21,7 @@ DEFAULT_WEB_DIR = Path(os.environ.get("PRICE_MONITOR_WEB_DIR", REPO_ROOT / "web"
 # at anything outside the two practice sites. A clear UA is part of being polite.
 USER_AGENT = os.environ.get(
     "PRICE_MONITOR_USER_AGENT",
-    "PriceMonitorDemo/1.0 (+https://example.com/price-monitor-demo; "
+    "PriceMonitorDemo/1.0 (+https://github.com/kang007long/price-monitor-demo; "
     "educational portfolio demo; polite crawler)",
 )
 

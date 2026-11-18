@@ -11,6 +11,20 @@ anti-bot bypasses are involved.
 
 ![Dashboard](docs/screenshots/dashboard.png)
 
+## Live demo
+
+After the first successful **Daily scrape and deploy** run (see
+[Deployment: GitHub Pages](#deployment-github-pages-free)), the dashboard is
+published at:
+
+https://kang007long.github.io/price-monitor-demo/
+
+What to expect on that page: search and stock/rating filters over 1,000 items,
+1/7/30-day change windows, trend charts, biggest movers, CSV/XLSX downloads,
+and a toolbar switch that flips the whole view between simulated and real
+scraped values. No server or login is involved — everything is static files
+refreshed daily by GitHub Actions.
+
 ## What it demonstrates
 
 - **Polite crawling** of all 1,000 books across 50 catalogue pages: robots.txt,
@@ -180,7 +194,7 @@ the sandbox prices are static. Backfill never changes current item state.
   per second.
 - **Retries:** timeouts, connection errors, 429, and 5xx are retried with
   exponential backoff (and `Retry-After` when present), capped at 3 retries.
-- **User-Agent:** descriptive demo UA. Replace the `example.com` URL in
+- **User-Agent:** descriptive demo UA pointing at this repo. Replace that URL in
   `price_monitor/config.py` (or set `PRICE_MONITOR_USER_AGENT`) with your repo or
   contact before using this pattern anywhere else.
 - **No bypasses:** no CAPTCHA solving, fingerprint spoofing, login, or private
